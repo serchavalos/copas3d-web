@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COPAS3D Web</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: space-evenly;
+    }
+    button {
+      margin: 1rem;
+      padding: 1rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Canvas Drawing App</h1>
+  <main>
+      <canvas id="drawingCanvas" width="500" height="500"></canvas>
+      <form onsubmit="event.preventDefault();">
+        <button id="rotate-x">Rotar en X</button>
+        <button id="rotate-y">Rotar en Y</button>
+        <button id="rotate-z">Rotar en Z</button>
+        <button id="clearCanvas">Clear Canvas</button>
+      </form>
+  </main>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
