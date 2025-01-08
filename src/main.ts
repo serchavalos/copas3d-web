@@ -10,6 +10,7 @@ const R = new ColeccionRebanada();
 const width = canvas.width;
 const height = canvas.height;
 const ventana = new Coordenada(width, height, -(width/2), -(height/2), width/2, height/2);
+let drawingState: { active: boolean; lastYCoord: number | null } = { active: false, lastYCoord: null };
 
 ventana.dibuja(app);
 
@@ -20,13 +21,33 @@ function paint() {
   R.dibuja(app, ventana);
 }
 
-canvas?.addEventListener('click', (e) => {
-  const clickX = e.clientX - canvas.offsetLeft;
-  const clickY = e.clientY - canvas.offsetTop;
+function paintSlice(clientX: number, clientY: number) {
+  const clickX = clientX - canvas.offsetLeft;
+  const clickY = clientY - canvas.offsetTop;
   const x = width/2 - clickX;
   const y = height/2 - clickY;
   R.incluye(new Rebanada(new Punto3D(x, y, 0)));
   paint();
+}
+
+canvas?.addEventListener('mousedown', ({ clientY }) => {
+  drawingState = { active: true, lastYCoord: clientY };
+});
+
+canvas?.addEventListener('mouseup', ({ clientX, clientY }) => {
+  if (drawingState.lastYCoord !== null) {
+    paintSlice(clientX, clientY);
+  }
+  drawingState = { active: false, lastYCoord: null };
+});
+
+canvas?.addEventListener('mousemove', ({ clientX, clientY}) => {
+  if (!drawingState.active || drawingState.lastYCoord === null) return;
+
+  if (Math.abs(drawingState.lastYCoord - clientY) > 5) {
+    paintSlice(clientX, clientY);
+    drawingState.lastYCoord = clientY;
+  }
 });
 
 document.getElementById('rotate-x')?.addEventListener('click', () => {
@@ -50,4 +71,3 @@ document.getElementById('clearCanvas')?.addEventListener('click', () => {
   ventana.dibuja(app);
   R.vacia();
 });
-
