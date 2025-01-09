@@ -1,24 +1,24 @@
 import { App } from './application';
-import { ColeccionRebanada } from './colreb';
-import { Coordenada } from './coordenada';
-import { Punto3D } from './punto-3d';
-import { Rebanada } from './rebanada';
+import { SliceSet } from './SliceSet';
+import { Coordinate } from './Coordinate';
+import { Point3D } from './Point3D';
+import { Slice } from './Slice';
 
 const canvas = document.getElementById('drawingCanvas') as HTMLCanvasElement;
 const app = new App(canvas);
-const R = new ColeccionRebanada();
+const R = new SliceSet();
 const width = canvas.width;
 const height = canvas.height;
-const ventana = new Coordenada(width, height, -(width/2), -(height/2), width/2, height/2);
+const window = new Coordinate(width, height, -(width/2), -(height/2), width/2, height/2);
 let drawingState: { active: boolean; lastYCoord: number | null } = { active: false, lastYCoord: null };
 
-ventana.dibuja(app);
+window.render(app);
 
 function paint() {
   app.clearCanvas();
-  ventana.dibuja(app);
+  window.render(app);
   app.assignPenColor('#000');
-  R.dibuja(app, ventana);
+  R.render(app, window);
 }
 
 function paintSlice(clientX: number, clientY: number) {
@@ -26,7 +26,7 @@ function paintSlice(clientX: number, clientY: number) {
   const clickY = clientY - canvas.offsetTop;
   const x = width/2 - clickX;
   const y = height/2 - clickY;
-  R.incluye(new Rebanada(new Punto3D(x, y, 0)));
+  R.add(new Slice(new Point3D(x, y, 0)));
   paint();
 }
 
@@ -51,23 +51,23 @@ canvas?.addEventListener('mousemove', ({ clientX, clientY}) => {
 });
 
 document.getElementById('rotate-x')?.addEventListener('click', () => {
-  R.rotaEnX(10);
+  R.rotateInX(10);
   paint();
 });
 
 document.getElementById('rotate-y')?.addEventListener('click', () => {
-  R.rotaEnY(10);
+  R.rotateInY(10);
   paint();
 });
 
 
 document.getElementById('rotate-z')?.addEventListener('click', () => {
-  R.rotaEnZ(10);
+  R.rotateInZ(10);
   paint();
 });
 
 document.getElementById('clearCanvas')?.addEventListener('click', () => {
   app.clearCanvas();
-  ventana.dibuja(app);
-  R.vacia();
+  window.render(app);
+  R.empty();
 });
