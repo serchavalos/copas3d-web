@@ -5,8 +5,9 @@ import { LineSet } from "./LineSet";
 import { Line } from "./Line";
 import { Point3D } from "./Point3D";
 import { Point3DSet } from "./Point3DSet";
+import { Rotatable3D } from "./types";
 
-class Slice {
+class Slice implements Rotatable3D {
   private P: Point3DSet = new Point3DSet();
   private L: LineSet = new LineSet();
 

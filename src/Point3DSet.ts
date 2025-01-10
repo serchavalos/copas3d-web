@@ -1,6 +1,7 @@
+import { Collection, Rotatable3D } from "./types";
 import { Point3D } from "./Point3D";
 
-class Point3DSet {
+class Point3DSet implements Rotatable3D, Collection<Point3D> {
   private points: Point3D[]; // Array to store Point3D instances
   private n: number; // Number of points currently in the collection
 
@@ -25,6 +26,10 @@ class Point3DSet {
 
   length(): number {
     return this.n;
+  }
+
+  empty(): void {
+    this.points = [];
   }
 
   rotateInZ(ang: number): void {

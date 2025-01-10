@@ -1,8 +1,9 @@
 import { Line } from "./Line";
 import { App } from "./application";
 import { Coordinate } from "./Coordinate";
+import { Collection } from "./types";
 
-class LineSet {
+class LineSet implements Collection<Line> {
   private lines: Line[] = new Array(10); // Fixed-size array for lines
   private n: number = 0; // Number of current lines
 
@@ -22,7 +23,7 @@ class LineSet {
     return this.lines[i];
   }
 
-  private length(): number {
+  length(): number {
     return this.n;
   }
 

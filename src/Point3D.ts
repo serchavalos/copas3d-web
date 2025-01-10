@@ -1,4 +1,5 @@
-class Point3D {
+import { Rotatable3D } from "./types";
+class Point3D implements Rotatable3D {
   private coorx: number;
   private coory: number;
   private coorz: number;
