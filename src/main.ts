@@ -18,7 +18,8 @@ function paint() {
   app.clearCanvas();
   window.render(app);
   app.assignPenColor('#000');
-  R.render(app, window);
+  const slicesByCoordinates = window.translateCoordinates(R.getCoordinates());
+  app.renderSlices(slicesByCoordinates);
 }
 
 function paintSlice(clientX: number, clientY: number) {
@@ -26,7 +27,7 @@ function paintSlice(clientX: number, clientY: number) {
   const clickY = clientY - canvas.offsetTop;
   const x = width/2 - clickX;
   const y = height/2 - clickY;
-  R.add(new Slice(new Point3D(x, y, 0)));
+  R.push(new Slice(new Point3D(x, y, 0)));
   paint();
 }
 

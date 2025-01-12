@@ -1,11 +1,9 @@
-import { App } from "./application";
-import { Coordinate } from "./Coordinate";
 import { LineSet } from "./LineSet";
 
 import { Line } from "./Line";
 import { Point3D } from "./Point3D";
 import { Point3DSet } from "./Point3DSet";
-import { Rotatable3D } from "./types";
+import { PointCoordinate, Rotatable3D } from "./types";
 
 class Slice implements Rotatable3D {
   private P: Point3DSet = new Point3DSet();
@@ -13,18 +11,18 @@ class Slice implements Rotatable3D {
 
   constructor(pinicial?: Point3D) {
     if (pinicial) {
-      for (let i = 0; i < 360; i += 36) {
+      for (let i = 0; i < 360; i += 12) {
         const aux = Point3D.copy(pinicial);
         aux.rotateInY(i);
-        this.P.add(aux);
+        this.P.push(aux);
       }
-      for (let i = 0; i < this.P.length() - 1; i++) {
-        this.L.add(new Line(this.P.get(i), this.P.get(i + 1)));
+      for (let i = 0; i < this.P.length - 1; i++) {
+        this.L.push(new Line(this.P[i], this.P[i + 1]));
       }
-      this.L.add(
+      this.L.push(
         new Line(
-          this.P.get(this.P.length() - 1),
-          this.P.get(0)
+          this.P[this.P.length - 1],
+          this.P[0]
         )
       );
     }
@@ -45,19 +43,19 @@ class Slice implements Rotatable3D {
     this.regenerateLines();
   }
 
-  render(app: App, c: Coordinate): void {
-    this.L.render(app, c);
+  getCoordinates(): Array<[PointCoordinate, PointCoordinate]> {
+    return this.L.getCoordinates();
   }
 
   private regenerateLines(): void {
     this.L.empty();
-    for (let i = 0; i < this.P.length() - 1; i++) {
-      this.L.add(new Line(this.P.get(i), this.P.get(i + 1)));
+    for (let i = 0; i < this.P.length - 1; i++) {
+      this.L.push(new Line(this.P[i], this.P[i + 1]));
     }
-    this.L.add(
+    this.L.push(
       new Line(
-        this.P.get(this.P.length() - 1),
-        this.P.get(0)
+        this.P[this.P.length - 1],
+        this.P[0]
       )
     );
   }

@@ -1,52 +1,37 @@
 import { Slice } from "./Slice";
-import { App } from "./application";
-import { Coordinate } from "./Coordinate";
-import { Collection, Rotatable3D } from "./types";
+import { PointCoordinate, Rotatable3D } from "./types";
 
-class SliceSet implements Rotatable3D, Collection<Slice> {
-  private slices: Slice[] = [];
-
-  add(rebanada: Slice): void {
-    this.slices.push(rebanada);
-  }
-
-  get(i: number): Slice {
-    if (i < 0 || i >= this.length()) {
-      throw new Error("Index out of bounds");
-    }
-    return this.slices[i];
-  }
-
-  length(): number {
-    return this.slices.length;
-  }
-
+class SliceSet extends Array<Slice> implements Rotatable3D {
   empty(): void {
-    this.slices = [];
+    this.length = 0;
   }
 
   rotateInZ(ang: number): void {
-    for (let i = 0; i < this.slices.length; i++) {
-      this.slices[i].rotateInZ(ang);
+    for (let i = 0; i < this.length; i++) {
+      this[i].rotateInZ(ang);
     }
   }
 
   rotateInY(ang: number): void {
-    for (let i = 0; i < this.slices.length; i++) {
-      this.slices[i].rotateInY(ang);
+    for (let i = 0; i < this.length; i++) {
+      this[i].rotateInY(ang);
     }
   }
 
   rotateInX(ang: number): void {
-    for (let i = 0; i < this.slices.length; i++) {
-      this.slices[i].rotateInX(ang);
+    for (let i = 0; i < this.length; i++) {
+      this[i].rotateInX(ang);
     }
   }
 
-  render(app: App, c: Coordinate): void {
-    for (let i = 0; i < this.slices.length; i++) {
-      this.slices[i].render(app, c);
+  getCoordinates(): Array<Array<[PointCoordinate, PointCoordinate]>> {
+    const slices = []
+
+    for (let i = 0; i < this.length; i++) {
+      slices.push(this[i].getCoordinates());
     }
+
+    return slices;
   }
 }
 

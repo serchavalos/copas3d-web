@@ -4,9 +4,4 @@ export interface Rotatable3D {
   rotateInX(angle: number): void;
 }
 
-export interface Collection<T> {
-  add(item: T): void;
-  empty(): void;
-  get?(index: number): T;
-  length?(): number;
-}
+export type PointCoordinate = { x: number; y: number; };

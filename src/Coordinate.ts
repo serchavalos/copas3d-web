@@ -1,4 +1,5 @@
 import { App } from "./application";
+import { PointCoordinate } from "./types";
 
 class Coordinate {
   private x0: number;
@@ -45,6 +46,16 @@ class Coordinate {
 
   yReal(y: number): number {
     return -(((y - this.y0) * (this.x2 - this.x1)) / this.windowLength);
+  }
+
+  translateCoordinates(coordinates: Array<Array<[PointCoordinate, PointCoordinate]>>): Array<Array<[PointCoordinate, PointCoordinate]>> {
+    return coordinates.map((lines) => 
+      lines.map((line) => {
+        const [a, b] = line;
+        return [{ x: this.xWindow(a.x), y: this.yWindow(a.y) }, { x: this.xWindow(b.x), y: this.yWindow(b.y) }]
+      })
+    );
+
   }
 
   render(app: App): void {

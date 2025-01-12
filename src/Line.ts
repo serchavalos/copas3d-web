@@ -1,6 +1,6 @@
 import { App } from "./application";
 import { Point3D } from "./Point3D";
-import { Coordinate } from "./Coordinate";
+import { PointCoordinate } from "./types";
 
 class Line {
   private a: Point3D;
@@ -11,14 +11,10 @@ class Line {
     this.b = b ?? new Point3D();
   }
 
-  render(app: App, c: Coordinate): void {
-    const ax = c.xWindow(this.a.x());
-    const ay = c.yWindow(this.a.y());
-    const bx = c.xWindow(this.b.x());
-    const by = c.yWindow(this.b.y());
-
-    app.line(ax, ay, bx, by); // Draw the line in the application context
+  getCoordinates(): [ PointCoordinate, PointCoordinate ] {
+    return [ { x: this.a.x(), y: this.a.y()}, {x: this.b.x(), y: this.b.y() }];
   }
+
 
   // Equality comparison
   static equals(uno: Line, dos: Line): boolean {
