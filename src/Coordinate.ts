@@ -55,7 +55,6 @@ class Coordinate {
         return [{ x: this.xWindow(a.x), y: this.yWindow(a.y) }, { x: this.xWindow(b.x), y: this.yWindow(b.y) }]
       })
     );
-
   }
 
   render(app: App): void {

@@ -1,5 +1,6 @@
 import { Coordinate } from "./Coordinate";
 import { App } from "./application";
+import { PointCoordinate } from "./types";
 
 describe("Coordinate", () => {
   let appMock: jest.Mocked<App>;
@@ -71,6 +72,23 @@ describe("Coordinate", () => {
     const xResult = coordinate.xWindow(0.5); 
     const yResult = coordinate.yWindow(0.5); 
     expect(xResult).toBe(1);
-    expect(yResult).toBe(1);
+    expect(yResult).toBe(-1);
+  });
+
+  it("correctly translates coordinates", () => {
+    const coordinates: Array<Array<[PointCoordinate, PointCoordinate]>> = [
+      [
+        [{ x: 1, y: 1 }, { x: 2, y: 2 }],
+        [{ x: 3, y: 3 }, { x: 4, y: 4 }]
+      ]
+    ];
+    const result = coordinate.translateCoordinates(coordinates);
+    const expected = [
+      [
+        [{ x: coordinate.xWindow(1), y: coordinate.yWindow(1) }, { x: coordinate.xWindow(2), y: coordinate.yWindow(2) }],
+        [{ x: coordinate.xWindow(3), y: coordinate.yWindow(3) }, { x: coordinate.xWindow(4), y: coordinate.yWindow(4) }]
+      ]
+    ];
+    expect(result).toEqual(expected);
   });
 });

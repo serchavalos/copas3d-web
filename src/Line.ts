@@ -15,7 +15,6 @@ class Line {
     return [ { x: this.a.x(), y: this.a.y()}, {x: this.b.x(), y: this.b.y() }];
   }
 
-
   // Equality comparison
   static equals(uno: Line, dos: Line): boolean {
     return Point3D.equals(uno.a, dos.a) && Point3D.equals(uno.b, dos.b);
